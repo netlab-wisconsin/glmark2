@@ -479,6 +479,8 @@ GLStateEGL::getVisualConfig(GLVisualConfig& vc)
 #define GLMARK2_NATIVE_EGL_DISPLAY_ENUM EGL_PLATFORM_WAYLAND_KHR
 #elif  GLMARK2_USE_DRM
 #define GLMARK2_NATIVE_EGL_DISPLAY_ENUM EGL_PLATFORM_GBM_KHR
+#elif  GLMARK2_USE_DEVICE
+#define GLMARK2_NATIVE_EGL_DISPLAY_ENUM EGL_PLATFORM_DEVICE_EXT
 #else
 // Platforms not in the above platform enums fall back to eglGetDisplay.
 #define GLMARK2_NATIVE_EGL_DISPLAY_ENUM 0
@@ -656,7 +658,9 @@ GLStateEGL::gotValidConfig()
         return false;
 
     const EGLint config_attribs[] = {
-#if GLMARK2_USE_GLESv2
+#if GLMARK2_USE_DEVICE
+        EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
+#elif GLMARK2_USE_GLESv2
         EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
 #elif GLMARK2_USE_GL
         EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
@@ -737,8 +741,11 @@ GLStateEGL::gotValidSurface()
 
     if (!gotValidConfig())
         return false;
-
+#ifdef GLMARK2_USE_DEVICE
+    egl_surface_ = eglCreatePbufferSurface(egl_display_, egl_config_, (EGLint *)native_window_);
+#else
     egl_surface_ = eglCreateWindowSurface(egl_display_, egl_config_, native_window_, 0);
+#endif
     if (!egl_surface_) {
         Log::error("eglCreateWindowSurface failed with error: 0x%x\n", eglGetError());
         return false;

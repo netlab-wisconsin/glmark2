@@ -157,6 +157,25 @@ else
     native_x11_dep = declare_dependency()
 endif
 
+if need_device
+    native_device_lib = static_library(
+        'native-device',
+        ['native-state-egl.cpp', 'glad/src/egl.c'],
+        include_directories: [
+            include_directories('glad/include'),
+            include_directories('libmatrix'),
+        ],
+        dependencies: [libmatrix_headers_dep],
+        )
+
+    native_device_dep = declare_dependency(
+        link_with: native_device_lib,
+        compile_args: ['-DGLMARK2_USE_DEVICE'],
+        )
+else
+    native_device_dep = declare_dependency()
+endif
+
 if need_gl
     gl_gl_lib = static_library(
         'gl-gl',
@@ -261,6 +280,7 @@ flavor_info = {
   'x11-gl' : ['glmark2', native_x11_dep, gl_gl_dep, wsi_glx_dep],
   'x11-gl-egl' : ['glmark2-egl', native_x11_dep, gl_gl_dep, wsi_egl_dep],
   'x11-glesv2' : ['glmark2-es2', native_x11_dep, gl_glesv2_dep, wsi_egl_dep],
+  'gpu-gl-egl' : ['glmark2-egl-gpu', native_device_dep, gl_gl_dep, wsi_egl_dep],
 }
 
 foreach flavor : flavors

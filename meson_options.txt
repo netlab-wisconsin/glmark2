@@ -8,7 +8,8 @@ option('flavors', type : 'array',
            'wayland-glesv2',
            'x11-gl',
            'x11-glesv2',
-           'x11-gl-egl'
+           'x11-gl-egl',
+           'gpu-gl-egl'
         ],
         value : []
 )
