@@ -53,6 +53,7 @@ public:
     bool should_quit();
     void resize(int width, int height);
     unsigned int fbo();
+    unsigned int color_rbo();
 
 private:
     bool supports_gl2();

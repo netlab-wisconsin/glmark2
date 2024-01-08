@@ -25,6 +25,7 @@
 
 #include <vector>
 #include "scene.h"
+#include "util.h"
 
 
 class SceneCollection

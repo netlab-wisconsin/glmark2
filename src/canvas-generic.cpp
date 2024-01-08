@@ -218,6 +218,12 @@ CanvasGeneric::fbo()
     return fbo_;
 }
 
+unsigned int
+CanvasGeneric::color_rbo()
+{
+    return color_renderbuffer_;
+}
+
 
 /*******************
  * Private methods *

@@ -244,6 +244,7 @@ if need_egl
     wsi_egl_dep = declare_dependency(
         sources: ['gl-state-egl.cpp', 'glad/src/egl.c'],
         include_directories: [
+            include_directories('.'),
             include_directories('glad/include'),
             include_directories('libmatrix'),
             ],
@@ -296,7 +297,7 @@ foreach flavor : flavors
     endif
     executable(
         binary,
-        ['main.cpp', 'canvas-generic.cpp'],
+        ['main.cpp'],
         dependencies: [common_dep, native_dep, gl_dep, wsi_dep],
         cpp_args: ['-DGLMARK2_EXECUTABLE="@0@"'.format(binary)],
         install: true,

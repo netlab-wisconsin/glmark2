@@ -9,17 +9,17 @@ project(
 cpp = meson.get_compiler('cpp')
 
 full_version = meson.project_version() + get_option('version-suffix')
-add_global_arguments('-DGLMARK_VERSION="@0@"'.format(full_version), language : 'cpp')
+add_project_arguments('-DGLMARK_VERSION="@0@"'.format(full_version), language : 'cpp')
 
 data_path = get_option('data-path')
 if data_path == ''
     data_path = join_paths([get_option('prefix'), get_option('datadir'), 'glmark2'])
 endif
-add_global_arguments('-DGLMARK_DATA_PATH="@0@"'.format(data_path), language : 'cpp')
+add_project_arguments('-DGLMARK_DATA_PATH="@0@"'.format(data_path), language : 'cpp')
 
 extras_path = get_option('extras-path')
 if extras_path != ''
-    add_global_arguments('-DGLMARK_EXTRAS_PATH="@0@"'.format(extras_path), language : 'cpp')
+    add_project_arguments('-DGLMARK_EXTRAS_PATH="@0@"'.format(extras_path), language : 'cpp')
 endif
 
 m_dep = cpp.find_library('m', required : false)
@@ -56,7 +56,7 @@ if need_drm
 
     # gbm >= 17.1 required for multiplane
     if gbm_dep.version().version_compare('>= 17.1')
-        add_global_arguments('-DGBM_HAS_PLANES', language : 'cpp')
+        add_project_arguments('-DGBM_HAS_PLANES', language : 'cpp')
     endif
 endif
 
