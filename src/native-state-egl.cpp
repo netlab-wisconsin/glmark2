@@ -19,13 +19,13 @@ EGLint get_gpu_id_option() {
     return gpu_id;
 }
 
-NativeStateEGL::NativeStateEGL() : eglDevice(nullptr), gpuId(0) {
+NativeStateEGL::NativeStateEGL() : eglDevice(nullptr), gpuId(-1) {
     Options::winsys_options_help =
-       "  gpu=id  GPU the benchmark will run on \n";
+        "  gpu=id  GPU the benchmark will run on \n";
 }
 
 bool NativeStateEGL::init_display() {
-    gpuId = get_gpu_id_option();
+    gpuId = gpuId > 0 ? gpuId : get_gpu_id_option();
 #if defined(WIN32)
     if (!egl_lib_.open("libEGL.dll")) {
 #else

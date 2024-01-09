@@ -3,7 +3,6 @@
 #define GLMARK2_NATIVE_STATE_EGL_H_
 
 #include "glad/egl.h"
-
 #include "native-state.h"
 #include "shared-library.h"
 
@@ -19,6 +18,8 @@ class NativeStateEGL : public NativeState {
     void visible(bool v) {}
     bool should_quit() { return false; }
     void flip() {}
+
+    void set_gpu_id(EGLint _gpuId) { gpuId = _gpuId; }
 
    private:
     EGLDeviceEXT eglDevice;
