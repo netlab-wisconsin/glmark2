@@ -273,7 +273,7 @@ CanvasGeneric::resize_no_viewport(int width, int height)
 
     native_state_.window(cur_properties);
 
-    if ((cur_properties.fullscreen == properties.fullscreen &&
+    if ((cur_properties.fullscreen && properties.fullscreen &&
          cur_properties.width > 0 && cur_properties.height > 0) ||
         (cur_properties.width == properties.width &&
          cur_properties.height == properties.height))
