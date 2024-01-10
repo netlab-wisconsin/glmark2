@@ -33,7 +33,7 @@ LuminanceRenderer::LuminanceRenderer() :
 Program *
 LuminanceRenderer::luminance_program(bool create_new)
 {
-    static Program *luminance_program(0);
+    thread_local Program *luminance_program(0);
     if (create_new)
         luminance_program = 0;
 

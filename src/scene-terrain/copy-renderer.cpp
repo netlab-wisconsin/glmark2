@@ -33,7 +33,7 @@ CopyRenderer::CopyRenderer() :
 Program *
 CopyRenderer::copy_program(bool create_new)
 {
-    static Program *copy_program(0);
+    thread_local Program *copy_program(0);
     if (create_new)
         copy_program = 0;
 

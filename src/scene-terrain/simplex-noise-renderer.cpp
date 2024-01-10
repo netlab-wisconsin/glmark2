@@ -35,7 +35,7 @@ SimplexNoiseRenderer::SimplexNoiseRenderer() :
 Program *
 SimplexNoiseRenderer::noise_program(bool create_new)
 {
-    static Program *noise_program(0);
+    thread_local Program *noise_program(0);
     if (create_new)
         noise_program = 0;
 

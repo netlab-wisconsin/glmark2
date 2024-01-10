@@ -43,7 +43,7 @@ BlurRenderer::blur_program(bool create_new, int radius, float sigma,
                            BlurDirection dir, const LibMatrix::vec2 &step,
                            float tilt_shift)
 {
-    static Program *blur_program(0);
+    thread_local Program *blur_program(0);
     if (create_new)
         blur_program = 0;
 

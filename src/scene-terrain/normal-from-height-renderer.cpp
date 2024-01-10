@@ -54,7 +54,7 @@ NormalFromHeightRenderer::setup_offscreen(const LibMatrix::vec2 &size, bool has_
 Program *
 NormalFromHeightRenderer::normal_from_height_program(bool create_new)
 {
-    static Program *normal_from_height_program(0);
+    thread_local Program *normal_from_height_program(0);
     if (create_new)
         normal_from_height_program = 0;
 
