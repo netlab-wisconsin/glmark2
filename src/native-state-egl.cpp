@@ -53,8 +53,16 @@ bool NativeStateEGL::init_display() {
     std::vector<EGLDeviceEXT> devices(numDevices);
     egl_query_devices(numDevices, &devices[0], &numDevices);
 
-    eglDevice = devices[gpuId];
-    return true;
+    for (int i = 0; i < numDevices; ++i) {
+        EGLAttrib eglCudaDeviceId;
+        if (eglQueryDeviceAttribEXT(devices[i], EGL_CUDA_DEVICE_NV, &eglCudaDeviceId)) {
+            if (eglCudaDeviceId == gpuId) {
+                eglDevice = devices[i];
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 void* NativeStateEGL::display() {
