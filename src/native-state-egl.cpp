@@ -43,6 +43,11 @@ bool NativeStateEGL::init_display() {
         Log::error("Error: Failed to get function pointers for EGL extensions! \n");
         return false;
     }
+    auto egl_query_device_attr = reinterpret_cast<PFNEGLQUERYDEVICEATTRIBEXTPROC>(egl_get_proc_address("eglQueryDeviceAttribEXT"));
+    if (!egl_query_device_attr) {
+        Log::error("Error: Failed to get function pointers for EGL extensions! \n");
+        return false;
+    }
     EGLint numDevices;
     egl_query_devices(0, NULL, &numDevices);
     if (gpuId >= numDevices) {
@@ -55,7 +60,7 @@ bool NativeStateEGL::init_display() {
 
     for (int i = 0; i < numDevices; ++i) {
         EGLAttrib eglCudaDeviceId;
-        if (eglQueryDeviceAttribEXT(devices[i], EGL_CUDA_DEVICE_NV, &eglCudaDeviceId)) {
+        if (egl_query_device_attr(devices[i], EGL_CUDA_DEVICE_NV, &eglCudaDeviceId)) {
             if (eglCudaDeviceId == gpuId) {
                 eglDevice = devices[i];
                 return true;
